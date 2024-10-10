@@ -1,0 +1,26 @@
+name: deploy
+on:
+  push:
+    branches:
+      - 'release/*'
+
+jobs:
+  build_image:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Registry
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+      - name: Stop and remove existing container
+        run: |
+          docker stop rodi-web || true
+          docker rm rodi-web || true
+
+      - name: Run Docker container
+        run: docker run -d -p 80:3000 --name rodi-web dks9467/rodi-web-v3:${GITHUB_REF#refs/heads/release/}
