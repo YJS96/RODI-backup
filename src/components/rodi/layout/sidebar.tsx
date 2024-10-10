@@ -54,7 +54,7 @@ export default function SideBar() {
       icon: RinkGray,
       name: '마켓연동',
       svgColor: 'stroke',
-      path: '/admin/market-rink/smart-store',
+      path: '/admin/market-rink',
     },
   ];
 

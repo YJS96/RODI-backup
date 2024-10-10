@@ -1,26 +1,13 @@
 import { F } from '@mobily/ts-belt';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
-import React, { createContext, ReactNode, useContext } from 'react';
+import React, { ReactNode } from 'react';
 
 import { Flex } from '@/components/ui/flex';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
-type InputContextValue = {
-  state: 'default' | 'disabled' | 'muted' | 'error';
-  size: 'default' | 'small-38' | 'small-28';
-};
-
-const InputContext = createContext<InputContextValue | null>(null);
-
-function useInputContext() {
-  const context = useContext(InputContext);
-  if (context === null) {
-    throw new Error('useInputContext must be used within an InputProvider');
-  }
-  return context;
-}
+import { InputProvider, useInputContext } from './input-context';
 
 export interface InputBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -34,10 +21,11 @@ const InputBox: React.FC<InputBoxProps> = ({
   size = 'default',
   ...props
 }) => {
-  const value = { state, size };
   return (
     <div {...props}>
-      <InputContext.Provider value={value}>{children}</InputContext.Provider>
+      <InputProvider state={state} size={size}>
+        {children}
+      </InputProvider>
     </div>
   );
 };
@@ -67,7 +55,7 @@ const InputTitle: React.FC<InputBoxTitleVariantsProps> = ({
   className,
   ...props
 }) => {
-  const { state, size } = useInputContext();
+  const { state, size } = useInputContext('InputTitle');
   const Comp = asChild ? Slot : Text;
   return (
     <>
@@ -113,7 +101,7 @@ export const inputContentVariants = cva(
 interface InputContentVariantsProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const InputContent: React.FC<InputContentVariantsProps> = ({ children, className, ...props }) => {
-  const { state, size } = useInputContext();
+  const { state, size } = useInputContext('InputContent');
   return (
     <Flex align="center" className={cn(inputContentVariants({ state, size }))} {...props}>
       {children}
@@ -139,7 +127,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
-    const { state, size } = useInputContext();
+    const { state, size } = useInputContext('Input');
     return (
       <input
         type={type}
@@ -161,7 +149,7 @@ export interface InputAffixProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 const InputAffix = React.forwardRef<HTMLSpanElement, InputAffixProps>(
   ({ children, className, ...props }, ref) => {
-    const { size } = useInputContext();
+    const { size } = useInputContext('InputAffix');
     return (
       <span className={cn(inputTextVariants({ size }), 'shrink-0')} ref={ref} {...props}>
         {children}
@@ -175,7 +163,7 @@ export interface InputErrorTextProps extends React.HTMLAttributes<HTMLElement> {
 
 const InputErrorText = React.forwardRef<HTMLSpanElement, InputErrorTextProps>(
   ({ children, className, ...props }, ref) => {
-    const { state, size } = useInputContext();
+    const { state, size } = useInputContext('InputErrorText');
     return (
       <>
         {F.equals(state, 'error') && !F.equals(size, 'small-28') && (
