@@ -60,12 +60,18 @@ const flexVariant = cva(['box-border'], {
       sticky: 'sticky',
     },
     shrink: {
-      0: 'flex-shrink-0',
-      1: 'flex-shrink',
+      0: 'flex-grow-0',
+      1: 'flex-grow-1',
     },
     grow: {
-      0: 'flex-grow-0',
-      1: 'flex-grow',
+      0: 'flex-shrink-0',
+      1: 'flex-shrink-1',
+    },
+    child: {
+      initial: '[&>*]:flex-initial',
+      flex: '[&>*]:flex-1',
+      auto: '[&>*]:flex-auto',
+      none: '[&>*]:flex-none',
     },
   },
   defaultVariants: {
@@ -97,6 +103,7 @@ const Flex = forwardRef<FlexElement, FlexProps>((props, forwardedRef) => {
     shrink,
     grow,
     position,
+    child,
     // flexProps
     className,
     asChild,
@@ -121,6 +128,7 @@ const Flex = forwardRef<FlexElement, FlexProps>((props, forwardedRef) => {
           position,
           shrink,
           grow,
+          child,
         }),
         className,
       )}

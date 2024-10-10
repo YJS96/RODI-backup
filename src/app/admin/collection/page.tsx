@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
-import CollectionStatus from '@/components/Buttons/CollectionStatus';
+import CollectionStatus from '@/components/rodi/ui/Buttons/CollectionStatus';
 import PrevPage from '~/public/images/icon-16-right.svg';
 import CheckGoods from '~/public/images/icon-20-checkUnsel.svg';
 import Delete from '~/public/images/icon-20-delete.svg';
