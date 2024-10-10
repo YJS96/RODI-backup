@@ -1,10 +1,9 @@
 'use client';
 import { NextPage } from 'next';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import React from 'react';
 import { match } from 'ts-pattern';
 
-import { Flex } from '@/components/ui/flex';
-import { Information } from '@/components/ui/information';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Text } from '@/components/ui/text';
@@ -13,7 +12,8 @@ import { createQueryString } from '@/lib/string';
 
 import { tabContent, tabGuard, tabList } from './tab';
 
-const SettingPage: NextPage<CommonNextPageProps> = ({ searchParams }) => {
+
+const MarketRink: NextPage<CommonNextPageProps> = ({ searchParams }) => {
   const tab = tabGuard(searchParams.tab) ? searchParams.tab : tabList[0];
   const searchParamsByHook = useSearchParams();
   const pathname = usePathname();
@@ -21,12 +21,9 @@ const SettingPage: NextPage<CommonNextPageProps> = ({ searchParams }) => {
 
   return (
     <div>
-      <Flex align="center" gap="1">
-        <Text as="h2" weight="bold" size="display-01">
-          설정
-        </Text>
-        <Information>11번가, 롯데온, 인터파크는 별도의 추가 설정이 필요하지 않습니다.</Information>
-      </Flex>
+      <Text as="h2" weight="bold" size="display-01">
+        오픈마켓 연동
+      </Text>
       <Tabs defaultValue={tab}>
         <TabsList type="branch" className="mt-5">
           {tabList.map((tab) => (
@@ -45,10 +42,13 @@ const SettingPage: NextPage<CommonNextPageProps> = ({ searchParams }) => {
             >
               <Text as="h2" size="subhead-03" weight="semibold">
                 {match(tab)
-                  .with('CommonTab', () => '공통')
                   .with('SmartStoreTab', () => '스마트스토어')
                   .with('CoupangTab', () => '쿠팡')
                   .with('ESMTab', () => 'ESM 2.0(지마켓, 옥션)')
+                  .with('ElevenStreetGlobalTab', () => '11번가 (글로벌)')
+                  .with('ElevenStreetKoreaTab', () => '11번가 (국내)')
+                  .with('LotteonTab', () => '롯데온')
+                  .with('InterparkTab', () => '인터파크')
                   .exhaustive()}
               </Text>
             </TabsTrigger>
@@ -65,4 +65,4 @@ const SettingPage: NextPage<CommonNextPageProps> = ({ searchParams }) => {
   );
 };
 
-export default SettingPage;
+export default MarketRink;

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import React from 'react';
 
 export default function Login() {
+  const baseUrl = process.env.BASE_URL;
   return (
     <>
       {/* PC화면 */}
@@ -12,7 +13,7 @@ export default function Login() {
           <div className="mt-7 text-lg font-semibold">소셜 계정으로 간편하게 로그인하세요</div>
           <div className="buttons-frame mt-9 w-full">
             <a
-              href="http://localhost:8000/auth/login/naver"
+              href={`${baseUrl}/auth/login/naver`}
               className="login-button bg-naver-button text-color-white hover:bg-naver-button-hover"
             >
               <Image
@@ -25,7 +26,7 @@ export default function Login() {
               <span>네이버로 로그인하기</span>
             </a>
             <a
-              href="http://localhost:8000/auth/login/kakao"
+              href={`${baseUrl}/auth/login/kakao`}
               className="login-button bg-kakao-button hover:bg-kakao-button-hover"
             >
               <Image
@@ -49,7 +50,7 @@ export default function Login() {
         </div>
         <div className="fixed bottom-0 w-full p-12">
           <a
-            href="http://localhost:8000/auth/login/naver"
+            href={`${baseUrl}/auth/login/naver`}
             className="login-button bg-naver-button text-color-white hover:bg-naver-button-hover"
           >
             <Image
@@ -62,7 +63,7 @@ export default function Login() {
             <span>네이버로 로그인하기</span>
           </a>
           <a
-            href="http://localhost:8000/auth/login/kakao"
+            href={`${baseUrl}/auth/login/kakao`}
             className="login-button bg-kakao-button hover:bg-kakao-button-hover"
           >
             <Image
