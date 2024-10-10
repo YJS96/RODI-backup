@@ -1,33 +1,35 @@
 import { F } from '@mobily/ts-belt';
-import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
-import React, { ReactNode } from 'react';
+import React, { createContext, ReactNode, useContext } from 'react';
 
 import { Flex } from '@/components/ui/flex';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/lib/utils';
 
-import { InputProvider, useInputContext } from './input-context';
+type InputContextValue = {
+  state: 'default' | 'disabled' | 'error';
+  size: 'default' | 'small-38' | 'small-28';
+};
 
-export interface InputBoxProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: ReactNode;
-  state?: 'default' | 'disabled' | 'muted' | 'error';
-  size?: 'default' | 'small-38' | 'small-28';
+const InputContext = createContext<InputContextValue | null>(null);
+
+function useInputContext() {
+  const context = useContext(InputContext);
+  if (context === null) {
+    throw new Error('useInputContext must be used within an InputProvider');
+  }
+  return context;
 }
 
-const InputBox: React.FC<InputBoxProps> = ({
-  children,
-  state = 'default',
-  size = 'default',
-  ...props
-}) => {
-  return (
-    <div {...props}>
-      <InputProvider state={state} size={size}>
-        {children}
-      </InputProvider>
-    </div>
-  );
+export interface InputBoxProps {
+  children: ReactNode;
+  state: 'default' | 'disabled' | 'error';
+  size: 'default' | 'small-38' | 'small-28';
+}
+
+const InputBox: React.FC<InputBoxProps> = ({ children, state, size }) => {
+  const value = { state, size };
+  return <InputContext.Provider value={value}>{children}</InputContext.Provider>;
 };
 InputBox.displayName = 'InputBox';
 
@@ -36,7 +38,6 @@ const inputTitleVariants = cva('mb-2', {
     state: {
       default: 'text-colors-gray-900',
       disabled: 'text-colors-gray-500',
-      muted: 'text-colors-gray-700',
       error: 'text-colors-gray-900',
     },
   },
@@ -45,22 +46,14 @@ const inputTitleVariants = cva('mb-2', {
   },
 });
 
-export interface InputBoxTitleVariantsProps extends React.HTMLAttributes<HTMLHeadElement> {
-  asChild?: boolean;
-}
+export interface InputBoxTitleVariantsProps extends React.HTMLAttributes<HTMLHeadElement> {}
 
-const InputTitle: React.FC<InputBoxTitleVariantsProps> = ({
-  asChild = false,
-  children,
-  className,
-  ...props
-}) => {
-  const { state, size } = useInputContext('InputTitle');
-  const Comp = asChild ? Slot : Text;
+const InputTitle: React.FC<InputBoxTitleVariantsProps> = ({ children, className, ...props }) => {
+  const { state, size } = useInputContext();
   return (
     <>
       {!F.equals(size, 'small-28') && (
-        <Comp
+        <Text
           as="h3"
           size="body-02"
           weight="medium"
@@ -68,7 +61,7 @@ const InputTitle: React.FC<InputBoxTitleVariantsProps> = ({
           {...props}
         >
           {children}
-        </Comp>
+        </Text>
       )}
     </>
   );
@@ -76,13 +69,12 @@ const InputTitle: React.FC<InputBoxTitleVariantsProps> = ({
 InputTitle.displayName = 'InputTitle';
 
 export const inputContentVariants = cva(
-  'w-full min-w-0 text-color-gray-900 border border-input bg-background px-3 ring-offset-background',
+  'w-full text-color-gray-900 border border-input bg-background px-3 ring-offset-background',
   {
     variants: {
       state: {
-        default: 'border-border focus-within:border-gray-900',
+        default: 'borderborder focus-within:border-gray-900',
         disabled: 'border-gray-400 opacity-50',
-        muted: 'border-border bg-gray-300',
         error: 'border-border focus-within:border-destructive',
       },
       size: {
@@ -101,7 +93,7 @@ export const inputContentVariants = cva(
 interface InputContentVariantsProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const InputContent: React.FC<InputContentVariantsProps> = ({ children, className, ...props }) => {
-  const { state, size } = useInputContext('InputContent');
+  const { state, size } = useInputContext();
   return (
     <Flex align="center" className={cn(inputContentVariants({ state, size }))} {...props}>
       {children}
@@ -110,7 +102,7 @@ const InputContent: React.FC<InputContentVariantsProps> = ({ children, className
 };
 InputContent.displayName = 'InputContent';
 
-const inputTextVariants = cva('font-pretendard pr-2 text-gray-400 bg-transparent', {
+const inputTextVariants = cva('font-pretendard shrink-0 pr-2 text-gray-400', {
   variants: {
     size: {
       default: 'text-[14px]',
@@ -127,19 +119,21 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
-    const { state, size } = useInputContext('Input');
+    const { state, size } = useInputContext();
     return (
-      <input
-        type={type}
-        disabled={F.equals(state, 'disabled') || F.equals(state, 'muted')}
-        className={cn(
-          inputTextVariants({ size }),
-          'w-full text-sm text-gray-900 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed',
-          className,
-        )}
-        ref={ref}
-        {...props}
-      />
+      <Flex asChild grow={1}>
+        <input
+          type={type}
+          disabled={F.equals(state, 'disabled')}
+          className={cn(
+            inputTextVariants({ size }),
+            'text-sm text-gray-900 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+            className,
+          )}
+          ref={ref}
+          {...props}
+        />
+      </Flex>
     );
   },
 );
@@ -149,9 +143,9 @@ export interface InputAffixProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 const InputAffix = React.forwardRef<HTMLSpanElement, InputAffixProps>(
   ({ children, className, ...props }, ref) => {
-    const { size } = useInputContext('InputAffix');
+    const { size } = useInputContext();
     return (
-      <span className={cn(inputTextVariants({ size }), 'shrink-0')} ref={ref} {...props}>
+      <span className={cn(inputTextVariants({ size }))} ref={ref} {...props}>
         {children}
       </span>
     );
@@ -163,7 +157,7 @@ export interface InputErrorTextProps extends React.HTMLAttributes<HTMLElement> {
 
 const InputErrorText = React.forwardRef<HTMLSpanElement, InputErrorTextProps>(
   ({ children, className, ...props }, ref) => {
-    const { state, size } = useInputContext('InputErrorText');
+    const { state, size } = useInputContext();
     return (
       <>
         {F.equals(state, 'error') && !F.equals(size, 'small-28') && (

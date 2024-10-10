@@ -3,7 +3,7 @@ import React from 'react';
 import Menu from '~/public/images/icon-24-menu.svg';
 import RightArrow from '~/public/images/icon_16_right.svg';
 
-import { Button } from '../../ui/button';
+import { Button } from '../ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,8 +11,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../../ui/dropdown-menu';
-import { Text } from '../../ui/text';
+} from '../ui/dropdown-menu';
+import { Text } from '../ui/text';
 
 export default function HeaderLoggedOut() {
   return (

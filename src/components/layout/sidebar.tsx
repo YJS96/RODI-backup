@@ -12,7 +12,7 @@ import RegiGray from '~/public/images/icon_20_productEdit-gray.svg';
 import SettingsGray from '~/public/images/icon_20_setting-gray.svg';
 import PlanGray from '~/public/images/icon_20_ticket-gray.svg';
 
-import SideBarButton from '../../ui/sidebar-button';
+import SideBarButton from '../ui/sidebar-button';
 
 type ButtonProps = {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;

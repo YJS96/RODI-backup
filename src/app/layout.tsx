@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
 import '@/styles/tailwind.css';
-import ReactQueryProviders from '@/hooks/useReactQuery';
 import { cn } from '@/lib/utils';
 
 const pretendard = localFont({
@@ -21,9 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <ReactQueryProviders>
-        <body className={cn(pretendard.className)}>{children}</body>
-      </ReactQueryProviders>
+      <body className={cn(pretendard.className)}>{children}</body>
     </html>
   );
 }

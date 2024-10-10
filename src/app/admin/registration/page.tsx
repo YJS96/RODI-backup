@@ -2,8 +2,8 @@
 import Image from 'next/image';
 import React from 'react';
 
+import RegiMarket from '@/components/Buttons/RegiMarket';
 import ColorChip from '@/components/ColorChip/ColorChip';
-import RegiMarket from '@/components/rodi/ui/Buttons/RegiMarket';
 import Pen from '~/public/images/icon-16-pen.svg';
 import PrevPage from '~/public/images/icon-16-right.svg';
 import Delete from '~/public/images/icon-20-delete.svg';

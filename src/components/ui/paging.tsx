@@ -10,7 +10,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 
-interface PagingProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+interface PagingProps {
   /** 전체 페이지 개수 */
   totalPage: number;
   /** 한 줄 당 표시될 항목의 수 */
@@ -19,7 +19,7 @@ interface PagingProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChan
   onChange: (index: number) => void;
 }
 
-const Paging: React.FC<PagingProps> = ({ totalPage, itemsPerGroup, onChange, ...props }) => {
+const Paging: React.FC<PagingProps> = ({ totalPage, itemsPerGroup, onChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalGroups = Math.ceil(totalPage / itemsPerGroup);
@@ -48,7 +48,7 @@ const Paging: React.FC<PagingProps> = ({ totalPage, itemsPerGroup, onChange, ...
   };
 
   return (
-    <Pagination {...props}>
+    <Pagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious

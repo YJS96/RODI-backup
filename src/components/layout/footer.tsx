@@ -2,7 +2,7 @@ import React from 'react';
 
 import LogoGray from '~/public/images/logo_vertical_gray.svg';
 
-import { Text } from '../../ui/text';
+import { Text } from '../ui/text';
 
 export default function Footer() {
   return (

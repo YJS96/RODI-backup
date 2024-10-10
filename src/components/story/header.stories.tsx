@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Header from '../rodi/layout/header';
+import Header from '../layout/header';
 
 const meta: Meta<typeof Header> = {
   title: 'Header',

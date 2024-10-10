@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
 
-import Header from '@/components/rodi/layout/header';
-import SideBar from '@/components/rodi/layout/sidebar';
+import Header from '@/components/layout/header';
+import SideBar from '@/components/layout/sidebar';
 
 interface AdminProps {
   children: React.ReactNode;

@@ -1,6 +1,5 @@
 'use client';
 
-import { F } from '@mobily/ts-belt';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { cva, VariantProps } from 'class-variance-authority';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
@@ -41,32 +40,7 @@ const textSizeMapping: { [key: string]: 'body-02' | 'body-01' | 'caption' } = {
   'small-28': 'caption',
 };
 
-// const Select = SelectPrimitive.Root;
-const Select = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root> &
-    VariantProps<typeof selectVariants> & {
-      className?: string;
-      title?: string;
-    }
->(({ children, className, title, state, size, ...props }, ref) => (
-  <SelectPrimitive.Root {...props}>
-    <div className={className}>
-      {!F.equals(size, 'small-28') && !F.equals(title, undefined) && (
-        <Text
-          as="h3"
-          size="body-02"
-          weight="medium"
-          className={cn(titleStateMapping[state ?? 'default'], 'mb-2')}
-        >
-          {title}
-        </Text>
-      )}
-      {children}
-    </div>
-  </SelectPrimitive.Root>
-));
-Select.displayName = 'Select';
+const Select = SelectPrimitive.Root;
 
 const SelectGroup = SelectPrimitive.Group;
 
@@ -75,21 +49,35 @@ const SelectValue = SelectPrimitive.Value;
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> &
-    VariantProps<typeof selectVariants> & {}
+    VariantProps<typeof selectVariants> & {
+      title: string;
+    }
 >(({ className, children, title, state, size, ...props }, ref) => (
-  <SelectPrimitive.Trigger
-    ref={ref}
-    className={cn(selectVariants({ state, size }), className)}
-    disabled={state === 'disabled'}
-    {...props}
-  >
-    <Text as="p" size={textSizeMapping[size ?? 'default']} weight="regular">
-      {children}
-    </Text>
-    <SelectPrimitive.Icon asChild>
-      <ChevronDown className="size-4 opacity-50" />
-    </SelectPrimitive.Icon>
-  </SelectPrimitive.Trigger>
+  <>
+    {size !== 'small-28' && (
+      <Text
+        as="h3"
+        size="body-02"
+        weight="medium"
+        className={cn(titleStateMapping[state ?? 'default'], 'mb-2')}
+      >
+        {title}
+      </Text>
+    )}
+    <SelectPrimitive.Trigger
+      ref={ref}
+      className={cn(selectVariants({ state, size }), className)}
+      disabled={state === 'disabled'}
+      {...props}
+    >
+      <Text as="p" size={textSizeMapping[size ?? 'default']} weight="regular">
+        {children}
+      </Text>
+      <SelectPrimitive.Icon asChild>
+        <ChevronDown className="size-4 opacity-50" />
+      </SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
+  </>
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 

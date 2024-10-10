@@ -72,8 +72,7 @@
     "usehooks-ts": "^2.10.0",
     "uuid": "^9.0.1",
     "vaul": "^0.8.9",
-    "zod": "^3.22.4",
-    "react-query": "^3.39.3"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.6.16",

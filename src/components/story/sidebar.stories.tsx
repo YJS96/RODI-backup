@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import SideBar from '../rodi/layout/sidebar';
+import SideBar from '../layout/sidebar';
 
 const meta: Meta<typeof SideBar> = {
   title: 'SideBar',
