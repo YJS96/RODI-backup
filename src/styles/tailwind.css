@@ -5,7 +5,7 @@
 @layer base {
   @font-face {
     font-family: 'Pretendard';
-    font-weight: 45 920;
+    font-weight: 100 900;
     font-style: normal;
     font-display: swap;
     src: url('../font/PretendardVariable.woff2') format('woff2');
@@ -91,6 +91,9 @@
 @layer base {
   * {
     @apply border-border;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none !important;
   }
   body {
     @apply bg-background text-foreground;

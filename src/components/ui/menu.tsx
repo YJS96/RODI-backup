@@ -13,8 +13,8 @@ Menu.displayName = 'Menu';
 
 const MenuContent = React.forwardRef<HTMLUListElement, React.ComponentProps<'ul'>>(
   ({ className, ...props }, ref) => (
-    <Flex asChild direction="row" align="center" gap="0.25">
-      <ul ref={ref} className={cn('h-[38px] px-[6px]', className)} {...props} />
+    <Flex asChild direction="row" align="center" gap="1.5">
+      <ul ref={ref} className={cn('h-[38px]', className)} {...props} />
     </Flex>
   ),
 );
@@ -37,7 +37,7 @@ const MenuItem = React.forwardRef<HTMLLIElement, MenuItemProps>(
         gap="0.25"
         className={cn(
           isActive ? 'border-b-2 border-colors-gray-900' : 'text-colors-gray-400',
-          'mx-4 transition-colors duration-200 ',
+          'transition-colors duration-200 ',
         )}
       >
         {children}

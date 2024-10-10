@@ -5,15 +5,15 @@ import { Information } from '@/components/ui/information';
 const meta: Meta<typeof Information> = {
   title: 'Information',
   component: Information,
-  args: {
-    description: '추천 단어를 클릭하면 상품명에 추가됩니다.',
-  },
+  args: {},
 };
 
 type Story = StoryObj<typeof Information>;
 
 export const Default: Story = {
-  render: (args) => <Information {...args} />,
+  render: (args) => (
+    <Information>11번가, 롯데온, 인터파크는 별도의 추가 설정이 필요하지 않습니다.</Information>
+  ),
 };
 
 export default meta;
