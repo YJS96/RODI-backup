@@ -1,32 +1,23 @@
 'use client';
-import React, { useState } from 'react';
+import { NextPage } from 'next';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { match } from 'ts-pattern';
 
-import {
-  CommonTab,
-  CoupangTab,
-  EsmTab,
-  SmartStoreTab,
-} from '@/components/rodi/components/settings';
 import { Flex } from '@/components/ui/flex';
 import { Information } from '@/components/ui/information';
-import { Menu, MenuContent, MenuItem, MenuLink } from '@/components/ui/menu';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Text } from '@/components/ui/text';
+import { CommonNextPageProps } from '@/lib/nextjs/type';
+import { createQueryString } from '@/lib/string';
 
-interface market {
-  name: string;
-  engName: string;
-}
+import { tabContent, tabGuard, tabList } from './tab';
 
-export default function Setting() {
-  const markets: market[] = [
-    { name: '공통설정', engName: 'common' },
-    { name: '스마트스토어', engName: 'smartstore' },
-    { name: '쿠팡', engName: 'coupang' },
-    { name: 'ESM 2.0(지마켓, 옥션)', engName: 'esm' },
-  ];
-
-  const [currentMarket, setCurrentMarket] = useState('common');
+const SettingPage: NextPage<CommonNextPageProps> = ({ searchParams }) => {
+  const tab = tabGuard(searchParams.tab) ? searchParams.tab : tabList[0];
+  const searchParamsByHook = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
   return (
     <div>
@@ -36,27 +27,40 @@ export default function Setting() {
         </Text>
         <Information>11번가, 롯데온, 인터파크는 별도의 추가 설정이 필요하지 않습니다.</Information>
       </Flex>
-      <Menu className="mt-5 border-b border-b-border">
-        <MenuContent>
-          {markets.map((market, index) => (
-            <MenuItem
-              key={index}
-              isActive={currentMarket === market.engName}
+      <Tabs defaultValue={tab}>
+        <TabsList type="branch" className="mt-5">
+          {tabList.map((tab) => (
+            <TabsTrigger
+              key={`tab-trigger-${tab}`}
+              value={tab}
               onClick={() => {
-                setCurrentMarket(market.engName);
+                replace(
+                  pathname + '?' + createQueryString(searchParamsByHook, 'tab', tab),
+                  // to prevent scroll to top
+                  {
+                    scroll: false,
+                  },
+                );
               }}
             >
-              <MenuLink>{market.name}</MenuLink>
-            </MenuItem>
+              {match(tab)
+                .with('CommonTab', () => '공통')
+                .with('SmartStoreTab', () => '스마트스토어')
+                .with('CoupangTab', () => '쿠팡')
+                .with('ESMTab', () => 'ESM 2.0(지마켓, 옥션)')
+                .exhaustive()}
+            </TabsTrigger>
           ))}
-        </MenuContent>
-      </Menu>
-      {match(currentMarket)
-        .with('common', () => <CommonTab />)
-        .with('smartstore', () => <SmartStoreTab />)
-        .with('coupang', () => <CoupangTab />)
-        .with('esm', () => <EsmTab />)
-        .otherwise(() => null)}
+        </TabsList>
+        <Separator className="absolute w-full" />
+        {Object.entries(tabContent).map(([key, Component]) => (
+          <TabsContent key={key} value={key}>
+            <Component />
+          </TabsContent>
+        ))}
+      </Tabs>
     </div>
   );
-}
+};
+
+export default SettingPage;
