@@ -5,7 +5,7 @@ import DownArrow from '~/public/images/down-fill.svg';
 import Menu from '~/public/images/icon-24-menu.svg';
 import RightArrow from '~/public/images/icon_16_right.svg';
 
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '../../ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,9 +13,9 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-import PlanTag from '../ui/plan-tag';
-import { Text } from '../ui/text';
+} from '../../ui/dropdown-menu';
+import PlanTag from '../../ui/plan-tag';
+import { Text } from '../../ui/text';
 
 export default function HeaderUserinfo() {
   return (

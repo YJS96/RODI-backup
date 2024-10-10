@@ -12,7 +12,7 @@ import RegiGray from '~/public/images/icon_20_productEdit-gray.svg';
 import SettingsGray from '~/public/images/icon_20_setting-gray.svg';
 import PlanGray from '~/public/images/icon_20_ticket-gray.svg';
 
-import SideBarButton from '../ui/sidebar-button';
+import SideBarButton from '../../ui/sidebar-button';
 
 type ButtonProps = {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
@@ -54,7 +54,7 @@ export default function SideBar() {
       icon: RinkGray,
       name: '마켓연동',
       svgColor: 'stroke',
-      path: '/admin/market-rink',
+      path: '/admin/market-rink/smart-store',
     },
   ];
 

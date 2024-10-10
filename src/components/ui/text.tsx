@@ -53,7 +53,7 @@ type TextH2Props = { as: 'h2'; asChild?: false } & ComponentPropsWithoutRef<'h2'
 type TextH3Props = { as: 'h3'; asChild?: false } & ComponentPropsWithoutRef<'h3'>;
 type TextH4Props = { as: 'h4'; asChild?: false } & ComponentPropsWithoutRef<'h4'>;
 type TextH5Props = { as: 'h5'; asChild?: false } & ComponentPropsWithoutRef<'h5'>;
-type TextPProps = { as: 'p'; asChild?: false } & ComponentPropsWithoutRef<'p'>;
+type TextPProps = { as?: 'p'; asChild?: false } & ComponentPropsWithoutRef<'p'>;
 type TextProps = TextOwnProps &
   (
     | TextAsChildProps
